@@ -13,7 +13,7 @@ if($_SERVER['HTTP_REFERER'] === "http://localhost:3000/"){
     if($name && $message && $email){
     
         //Load composer's autoloader
-        require 'vendor/autoload.php';
+        require 'composer/vendor/autoload.php';
 
         $mail = new PHPMailer(true);
         try{
@@ -28,8 +28,10 @@ if($_SERVER['HTTP_REFERER'] === "http://localhost:3000/"){
 
             // Recipients
             $mail->setFrom('mitrodigitalsmtp@gmail.com', 'React Contact form');
+            // $mail->setFrom('hmh2175377@gmail.com', 'React Contact form');
             $mail->addAddress($email);     // Add a recipient
             $mail->addReplyTo('mitrodigitalsmtp@gmail.com', 'Information');
+            // $mail->addReplyTo('hmh2175377@gmail.com', 'Information');
 
             // Content
             $mail->isHTML(true);      // Set email format to HTML

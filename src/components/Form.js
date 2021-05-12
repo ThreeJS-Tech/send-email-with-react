@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class Form extends Component {
     state = {
@@ -10,31 +10,38 @@ class Form extends Component {
 
     // handle the value
     handleCHange = input => e => {
-        this.setState({[input]: e.target.value});
+        this.setState({ [input]: e.target.value });
     }
 
     // when submit btn is clicked
     submitForm = (e) => {
-        const {name, email, message} = this.state;
+        const { name, email, message } = this.state;
 
+        let sendData = {
+            "email": email,
+            "name": name,
+            "message": message
+        }
 
         // create a new XMLHttpRequest
         var xhr = new XMLHttpRequest();
-    
+
         // get a callback when the server responds
         xhr.addEventListener('load', () => {
             // update the response state and the step
-            
-            this.setState ({
+
+            this.setState({
                 emailStatus: xhr.responseText
             });
+            console.log(xhr.responseText)
         });
         // open the request with the verb and the url
-        xhr.open('GET', 'http://api.ruvictor.com/sendemail/index.php?sendto=' + email + 
-                                '&name=' + name + 
-                                '&message=' + message);
+        // xhr.open('POST', 'http://kbl.tcf.mybluehost.me/sendemail/index.php?sendto=' + email +
+        //     '&name=' + name +
+        //     '&message=' + message);
+        xhr.open('POST', 'http://kbl.tcf.mybluehost.me/sendemail/index.php');
         // send the request
-        xhr.send();
+        xhr.send(JSON.stringify(sendData));
 
         // reset the fields
         this.setState({
@@ -45,9 +52,9 @@ class Form extends Component {
         e.preventDefault();
     }
 
-    render(){
-        const {name, email, message, emailStatus} = this.state;
-        return(
+    render() {
+        const { name, email, message, emailStatus } = this.state;
+        return (
             <div className="formBlock" onSubmit={this.submitForm}>
                 {emailStatus ? emailStatus : null}
                 <form>
